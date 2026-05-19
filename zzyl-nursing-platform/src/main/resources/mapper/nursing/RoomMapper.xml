@@ -119,6 +119,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
           and e.id is not null
         order by r.sort, r.create_time desc
     </select>
+    <select id="getRoomVoById" resultType="com.zzyl.nursing.vo.RoomVo">
+        select f.`name` floor_name, f.id floor_id, r.id room_id, r.`code` code, rt.price price
+        from floor f
+                 LEFT JOIN room r on f.id = r.floor_id
+                 LEFT JOIN room_type rt ON
+            rt.`name` = r.type_name
+        WHERE r.id = #{id}
+    </select>
 
 
     <insert id="insertRoom" parameterType="Room" useGeneratedKeys="true" keyProperty="id">

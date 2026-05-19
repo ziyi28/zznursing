@@ -2,6 +2,8 @@ package com.zzyl.nursing.service.impl;
 
 import java.util.Arrays;
 import java.util.List;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zzyl.common.utils.DateUtils;
 import com.zzyl.nursing.vo.NursingLevelVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,5 +106,12 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
     @Override
     public List<NursingLevelVo> selectNursingLevelVoList(NursingLevel nursingLevel) {
         return nursingLevelMapper.selectNursingLevelVoList(nursingLevel);
+    }
+
+    @Override
+    public List<NursingLevel> selectAll() {
+        LambdaQueryWrapper<NursingLevel> lambdaQueryWrapper =new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(NursingLevel::getStatus,1);
+        return list(lambdaQueryWrapper);
     }
 }
