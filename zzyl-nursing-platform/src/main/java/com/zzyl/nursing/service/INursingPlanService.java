@@ -68,4 +68,6 @@ public interface INursingPlanService extends IService<NursingPlan>
      * @return 护理计划列表
      */
     List<NursingPlan> getAllNursingPlans();
+
+
 }
