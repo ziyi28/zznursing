@@ -53,4 +53,8 @@ public class CacheConstants
      *缓存所有护理项目
      */
     public static final String NURSING_PROJECT_ALL_KEY ="nursing_project:all" ;
+    /**
+     *体检报告缓存
+     */
+    public static final String HEALTH_REPORT = "healthReport";
 }

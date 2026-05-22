@@ -140,3 +140,9 @@ aliyun:
 
 dept:
   nursingId: 201
+
+openai:
+  deepseek:
+    base-url: https://api.deepseek.com
+    api-key: sk-d069705f6f75436db8582635ba225a77
+    model: deepseek-v4-flash
