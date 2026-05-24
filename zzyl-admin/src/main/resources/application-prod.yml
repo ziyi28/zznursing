@@ -36,6 +36,7 @@ logging:
   level:
     com.zzyl: debug
     org.springframework: warn
+  config: classpath:logback-logstash.xml
 
 # 用户配置
 user:
