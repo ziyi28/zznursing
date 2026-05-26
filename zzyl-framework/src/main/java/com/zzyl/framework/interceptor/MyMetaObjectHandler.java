@@ -5,17 +5,14 @@ import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.zzyl.common.core.domain.model.LoginUser;
 import com.zzyl.common.utils.DateUtils;
 import com.zzyl.common.utils.SecurityUtils;
+import com.zzyl.common.utils.ServletUtils;
 import org.apache.ibatis.reflection.MetaObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Component
 public class MyMetaObjectHandler implements MetaObjectHandler {
-    @Autowired
-    private HttpServletRequest request;
     @Override
     public void insertFill(MetaObject metaObject) {
         if (isExclude()) {
@@ -25,7 +22,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     }
 
     private boolean isExclude() {
-        String requestURI = request.getRequestURI();
+        String requestURI = ServletUtils.getRequest().getRequestURI();
         if (requestURI.startsWith("/member")){
             return false;
         }

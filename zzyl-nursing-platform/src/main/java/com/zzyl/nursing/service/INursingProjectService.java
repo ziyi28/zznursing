@@ -1,6 +1,9 @@
 package com.zzyl.nursing.service;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.zzyl.common.core.page.TableDataInfo;
 import com.zzyl.nursing.domain.NursingProject;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zzyl.nursing.vo.NursingProjectVo;
@@ -66,4 +69,14 @@ public interface INursingProjectService extends IService<NursingProject>
      * @return  护理项目列表
      */
     List<NursingProjectVo> getAll();
+    /**
+     * 查询会员护理项目
+     * @param name
+     * @param status
+     * @return
+     */
+
+    TableDataInfo<NursingProject> getProject4MemberByNameAndStatus(IPage<NursingProject> page, String name, Integer status);
+
+
 }
