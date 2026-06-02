@@ -57,4 +57,8 @@ public class CacheConstants
      *体检报告缓存
      */
     public static final String HEALTH_REPORT = "healthReport";
+    /**
+     * 缓存所有产品列表
+     */
+    public static final String IOT_ALL_PRODUCT_LIST ="iot:all_product_list";
 }
