@@ -206,3 +206,15 @@ openai:
 wechat:
   appid: wx657f3e17863b378e
   secret: af05cd315255757faf0e81911c546e97
+huaweicloud:
+  ak: HPUALZK57OLII0DLWQN3
+  sk: TeF81RIiX603JC8hkPpdtBk9RYrBitmXtrQHdIvA
+  #如果是上海一，请填写"cn-east-3"；如果是北京四，请填写"cn-north-4";
+  regionId: cn-north-4
+  endpoint: 4c0e1ab732.st1.iotda-app.cn-north-4.myhuaweicloud.com
+  projectId: 84d7f4d7c8dd47fabaf60cdf469ea30b
+  #amqp相关配置 下一章课程接收设备数据使用
+  host: 4c0e1ab732.st1.iotda-app.cn-north-4.myhuaweicloud.com
+  accessKey: URYFsw2h
+  accessCode: rkodscqmv5i0TvZ0ArvkxrqdlUInD5eK
+  queueName: DefaultQueue   #默认无需改动
