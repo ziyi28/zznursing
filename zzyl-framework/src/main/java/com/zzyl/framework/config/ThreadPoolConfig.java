@@ -17,11 +17,11 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Configuration
 public class ThreadPoolConfig
 {
-    // 核心线程池大小
-    private int corePoolSize = 50;
+    // 核心线程池大小 cpu核数*2
+    private int corePoolSize =Runtime.getRuntime().availableProcessors() * 2;
 
-    // 最大可创建的线程数
-    private int maxPoolSize = 200;
+    // 最大可创建的线程数,核心线程+临时线程的最大数目
+    private int maxPoolSize = Runtime.getRuntime().availableProcessors() * 2+100;
 
     // 队列最大长度
     private int queueCapacity = 1000;

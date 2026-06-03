@@ -22,8 +22,12 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     }
 
     private boolean isExclude() {
-        String requestURI = ServletUtils.getRequest().getRequestURI();
-        if (requestURI.startsWith("/member")){
+        try {
+            String requestURI = ServletUtils.getRequest().getRequestURI();
+            if (requestURI.startsWith("/member")){
+                return false;
+            }
+        } catch (Exception e) {
             return false;
         }
         return true;
