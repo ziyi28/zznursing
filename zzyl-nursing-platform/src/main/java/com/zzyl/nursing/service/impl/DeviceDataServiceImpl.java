@@ -8,10 +8,12 @@ import java.util.List;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zzyl.common.DateTimeZoneConverter;
+import com.zzyl.common.constant.CacheConstants;
 import com.zzyl.common.constant.HttpStatus;
 import com.zzyl.common.core.page.TableDataInfo;
 import com.zzyl.common.utils.DateUtils;
@@ -21,6 +23,7 @@ import com.zzyl.nursing.dto.DeviceDataPageReqDto;
 import com.zzyl.nursing.job.vo.IotMsgNotifyData;
 import com.zzyl.nursing.mapper.DeviceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import com.zzyl.nursing.mapper.DeviceDataMapper;
 import com.zzyl.nursing.domain.DeviceData;
@@ -40,6 +43,8 @@ public class DeviceDataServiceImpl extends ServiceImpl<DeviceDataMapper, DeviceD
     private DeviceDataMapper deviceDataMapper;
     @Autowired
     private DeviceMapper deviceMapper;
+    @Autowired
+    private RedisTemplate<String,String> redisTemplate;
 
     /**
      * 查询设备数据
@@ -150,6 +155,7 @@ public class DeviceDataServiceImpl extends ServiceImpl<DeviceDataMapper, DeviceD
             service.getProperties().forEach((k,v)->{
                 DeviceData deviceData = BeanUtil.toBean(device, DeviceData.class);
                 deviceData.setId(null);
+                deviceData.setCreateTime(null);
                 deviceData.setFunctionId(k);
                 deviceData.setDataValue(v+"");
                 deviceData.setAlarmTime(eventTime);
@@ -158,6 +164,7 @@ public class DeviceDataServiceImpl extends ServiceImpl<DeviceDataMapper, DeviceD
 
         });
         saveBatch(deviceDataList);
+        redisTemplate.opsForHash().put(CacheConstants.IOT_DEVICE_LAST_DATA,deviceId, JSONUtil.toJsonStr(deviceDataList));
 
 
 

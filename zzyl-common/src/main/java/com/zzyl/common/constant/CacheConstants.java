@@ -61,4 +61,8 @@ public class CacheConstants
      * 缓存所有产品列表
      */
     public static final String IOT_ALL_PRODUCT_LIST ="iot:all_product_list";
+    /**
+     * 缓存最新iot设备数据
+     */
+    public static final String IOT_DEVICE_LAST_DATA = "iot:device_last_data";
 }
