@@ -1,0 +1,23 @@
+package com.zzyl.nursing.service;
+
+public interface WechatService {
+
+    /**
+     * 获取openid
+     * @param code
+     * @return
+     */
+    public String getOpenid(String code);
+
+    /**
+     * 获取手机号
+     * @param detailCode
+     * @return
+     */
+    public String getPhone(String detailCode);
+    /**
+     * 获取token
+     * @return  token
+     */
+    public String getToken();
+}

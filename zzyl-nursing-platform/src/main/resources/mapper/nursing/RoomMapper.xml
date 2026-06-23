@@ -127,7 +127,66 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             rt.`name` = r.type_name
         WHERE r.id = #{id}
     </select>
+    <resultMap id="RoomVoMap" type="com.zzyl.nursing.vo.RoomVo">
+        <id property="id" column="id"/>
+        <result column="code" property="code"/>
+        <result column="floor_id" property="floorId"/>
 
+        <collection property="bedVoList" ofType="com.zzyl.nursing.vo.BedVo">
+            <id column="bid" property="id"/>
+            <result column="bedNumber" property="bedNumber"/>
+            <result column="bedStatus" property="bedStatus"/>
+            <result column="bed_room_id" property="roomId"/> <result column="ename" property="ename"/>
+            <result column="elderId" property="elderId"/>
+
+            <collection property="deviceVos" ofType="com.zzyl.nursing.vo.DeviceInfo">
+                <id column="bd_id" property="id"/>
+                <result column="bd_iot_id" property="iotId"/>
+                <result column="bd_device_name" property="deviceName"/>
+                <result column="bd_product_key" property="productKey"/>
+                <result column="bd_product_name" property="productName"/>
+            </collection>
+        </collection>
+
+        <collection property="deviceVos" ofType="com.zzyl.nursing.vo.DeviceInfo">
+            <id column="rd_id" property="id"/>
+            <result column="rd_iot_id" property="iotId"/>
+            <result column="rd_device_name" property="deviceName"/>
+            <result column="rd_product_key" property="productKey"/>
+            <result column="rd_product_name" property="productName"/>
+        </collection>
+    </resultMap>
+
+    <select id="getRoomsWithDeviceByFloorId" resultMap="RoomVoMap">
+        select r.id,               -- 2. 替代 r.*，只查需要的字段
+               r.code,
+               r.floor_id,
+               b.id            bid,
+               b.bed_number    bedNumber,
+               b.bed_status    bedStatus,
+               b.room_id       bed_room_id,
+               e.`name`        ename,
+               e.id            elderId,
+               bd.id           bd_id,
+               bd.iot_id       bd_iot_id,  -- 3. 统一别名风格为下划线
+               bd.device_name  bd_device_name,
+               bd.product_key  bd_product_key,
+               bd.product_name bd_product_name,
+               rd.id           rd_id,
+               rd.iot_id       rd_iot_id,  -- 3. 统一别名风格为下划线
+               rd.device_name  rd_device_name,
+               rd.product_key  rd_product_key,
+               rd.product_name rd_product_name
+        from room r
+                 left join bed b on b.room_id = r.id
+                 left join elder e on e.bed_id = b.id
+                 left join device rd
+                           on rd.binding_location = r.id and rd.physical_location_type = 1 and rd.location_type = 1
+                 left join device bd
+                           on bd.binding_location = b.id and bd.physical_location_type = 2 and bd.location_type = 1
+        where r.floor_id = #{floorId}
+          and (rd.id is not null or bd.id is not null)
+    </select>
 
     <insert id="insertRoom" parameterType="Room" useGeneratedKeys="true" keyProperty="id">
         insert into room
