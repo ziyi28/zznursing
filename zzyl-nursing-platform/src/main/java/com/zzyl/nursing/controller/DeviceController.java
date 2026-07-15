@@ -99,6 +99,11 @@ public class DeviceController extends BaseController
         deviceService.updateDevice(deviceDto);
         return success();
     }
+    @GetMapping("/queryProduct/{productKey}")
+    @ApiOperation(value = "查询产品详情")
+    public AjaxResult queryProduct(@PathVariable String productKey) {
+        return deviceService.queryProduct(productKey);
+    }
 
     
 }

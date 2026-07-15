@@ -49,6 +49,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectDeviceVo"/>
         where id = #{id}
     </select>
+    <select id="selectNursingIdsByIotIdWithElder" resultType="java.lang.Long">
+        SELECT ne.nursing_id
+        FROM device d
+                 LEFT JOIN nursing_elder ne ON d.binding_location = ne.elder_id
+        WHERE d.location_type = 0
+          AND d.iot_id = #{iotId}
+    </select>
+
+    <select id="selectNursingIdsByIotIdWithBed" resultType="java.lang.Long">
+        SELECT ne.nursing_id
+        FROM device d
+                 LEFT JOIN elder e ON e.bed_id = d.binding_location
+                 LEFT JOIN nursing_elder ne ON ne.elder_id = e.id
+        WHERE d.location_type = 1
+          AND d.physical_location_type = 2
+          AND d.iot_id = #{iotId}
+    </select>
 
     <insert id="insertDevice" parameterType="Device" useGeneratedKeys="true" keyProperty="id">
         insert into device

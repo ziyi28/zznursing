@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -292,5 +293,26 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> impleme
         }
 
         remove(Wrappers.<Device>lambdaQuery().eq(Device::getIotId,iotId));
+    }
+
+    @Override
+    public AjaxResult queryProduct(String productKey) {
+        //1.参数校验
+        if (ObjectUtil.isEmpty(productKey)){
+            throw new BaseException("产品标识码不能为空");
+        }
+        ShowProductRequest request=new ShowProductRequest();
+        request.setProductId(productKey);
+        ShowProductResponse response;
+        try {
+             response = iotdAClient.showProduct(request);
+        } catch (Exception e) {
+            throw new BaseException("物联网接口 - 查询产品，调用失败");
+        }
+        List<ServiceCapability> serviceCapabilities = response.getServiceCapabilities();
+        if (CollUtil.isEmpty(serviceCapabilities)){
+            return AjaxResult.success(Collections.emptyList());
+        }
+        return AjaxResult.success(serviceCapabilities);
     }
 }

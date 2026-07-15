@@ -217,4 +217,7 @@ huaweicloud:
   host: 4c0e1ab732.st1.iotda-app.cn-north-4.myhuaweicloud.com
   accessKey: URYFsw2h
   accessCode: rkodscqmv5i0TvZ0ArvkxrqdlUInD5eK
-  queueName: DefaultQueue   #默认无需改动
+  queueName: DefaultQueue
+alert:
+  deviceMaintainerRole: 维修工
+  managerRole: 超级管理员
