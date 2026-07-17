@@ -68,9 +68,6 @@ spring:
       # 最小连接池数量
       minIdle: 10
       # 最大连接池数量
-      maxActive: 60
-      # 配置获取连接等待超时的时间
-      maxWait: 12000
       # 配置连接超时时间
       connectTimeout: 30000
       # 配置网络超时时间
@@ -84,6 +81,7 @@ spring:
       # 配置检测连接是否有效
       validationQuery: SELECT 1 FROM DUAL
       testWhileIdle: true
+
       testOnBorrow: true
       testOnReturn: false
       webStatFilter:
@@ -202,22 +200,4 @@ openai:
   deepseek:
     base-url: https://api.deepseek.com
     api-key: sk-d069705f6f75436db8582635ba225a77
-    model: deepseek-v4-flash
-wechat:
-  appid: wx657f3e17863b378e
-  secret: af05cd315255757faf0e81911c546e97
-huaweicloud:
-  ak: HPUALZK57OLII0DLWQN3
-  sk: TeF81RIiX603JC8hkPpdtBk9RYrBitmXtrQHdIvA
-  #如果是上海一，请填写"cn-east-3"；如果是北京四，请填写"cn-north-4";
-  regionId: cn-north-4
-  endpoint: 4c0e1ab732.st1.iotda-app.cn-north-4.myhuaweicloud.com
-  projectId: 84d7f4d7c8dd47fabaf60cdf469ea30b
-  #amqp相关配置 下一章课程接收设备数据使用
-  host: 4c0e1ab732.st1.iotda-app.cn-north-4.myhuaweicloud.com
-  accessKey: URYFsw2h
-  accessCode: rkodscqmv5i0TvZ0ArvkxrqdlUInD5eK
-  queueName: DefaultQueue
-alert:
-  deviceMaintainerRole: 维修工
-  managerRole: 超级管理员
+
