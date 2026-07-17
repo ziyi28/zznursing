@@ -37,6 +37,7 @@ logging:
     com.zzyl: debug
     org.springframework: warn
 
+
 # 用户配置
 user:
   password:

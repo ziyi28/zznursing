@@ -4,8 +4,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zzyl.common.constant.CacheConstants;
+import com.zzyl.common.core.page.TableDataInfo;
+import com.zzyl.common.exception.base.BaseException;
 import com.zzyl.common.utils.DateUtils;
+import com.zzyl.common.utils.StringUtils;
 import com.zzyl.nursing.vo.NursingProjectVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -132,5 +138,19 @@ public class NursingProjectServiceImpl extends ServiceImpl<NursingProjectMapper,
         all= nursingProjectMapper.getAll();
         redisTemplate.opsForValue().set(CacheConstants.NURSING_PROJECT_ALL_KEY,all);
         return all;
+    }
+
+    @Override
+    public TableDataInfo<NursingProject> getProject4MemberByNameAndStatus(IPage<NursingProject> page, String name, Integer status) {
+        TableDataInfo<NursingProject> tableDataInfo = new TableDataInfo<>();
+        LambdaQueryWrapper<NursingProject> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.like(StringUtils.isNotEmpty(name),NursingProject::getName,name)
+                .eq(ObjectUtil.isNotEmpty(status),NursingProject::getStatus,status);
+        page(page,queryWrapper);
+        tableDataInfo.setRows(page.getRecords());
+        tableDataInfo.setTotal(page.getTotal());
+        tableDataInfo.setCode(200);
+        tableDataInfo.setMsg("查询成功");
+        return tableDataInfo;
     }
 }

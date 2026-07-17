@@ -1,11 +1,19 @@
 package com.zzyl.nursing.service.impl;
 
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zzyl.common.constant.CacheConstants;
+import com.zzyl.common.utils.StringUtils;
+import com.zzyl.nursing.domain.DeviceData;
 import com.zzyl.nursing.domain.Floor;
 import com.zzyl.nursing.mapper.FloorMapper;
 import com.zzyl.nursing.service.IFloorService;
+import com.zzyl.nursing.vo.DeviceInfo;
+import com.zzyl.nursing.vo.FloorVo;
+import com.zzyl.nursing.vo.RoomVo;
 import com.zzyl.nursing.vo.TreeVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -22,6 +30,8 @@ public class FloorServiceImpl extends ServiceImpl<FloorMapper, Floor> implements
 {
     @Autowired
     private FloorMapper floorMapper;
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
 
     /**
      * 查询楼层
@@ -95,4 +105,11 @@ public class FloorServiceImpl extends ServiceImpl<FloorMapper, Floor> implements
     public List<TreeVo> getRoomAndBedByBedStatus(Integer status) {
         return floorMapper.getRoomAndBedByBedStatus(status);
     }
+
+    @Override
+    public List<FloorVo> selectAllByDevice() {
+        return floorMapper.selectAllByDevice();
+    }
+
+
 }

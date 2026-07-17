@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.zzyl.common.core.domain.model.LoginUser;
 import com.zzyl.common.utils.DateUtils;
 import com.zzyl.common.utils.SecurityUtils;
+import com.zzyl.common.utils.ServletUtils;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
@@ -14,14 +15,31 @@ import java.util.Date;
 public class MyMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
-        this.strictInsertFill(metaObject, "createBy", String.class, String.valueOf(getLoginUserId()));
+        if (isExclude()) {
+            this.strictInsertFill(metaObject, "createBy", String.class, String.valueOf(getLoginUserId()));
+        }
         this.strictInsertFill(metaObject, "createTime", Date.class, DateUtils.getNowDate());
+    }
+
+    private boolean isExclude() {
+        try {
+            String requestURI = ServletUtils.getRequest().getRequestURI();
+            if (requestURI.startsWith("/member")){
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
+        if (isExclude()){
+            this.setFieldValByName("updateBy", String.valueOf(getLoginUserId()), metaObject);
+        }
         this.setFieldValByName("updateTime", new Date(), metaObject);
-        this.setFieldValByName("updateBy", String.valueOf(getLoginUserId()), metaObject);
+
 //        this.strictInsertFill(metaObject, "updateBy", String.class, String.valueOf(getLoginUserId()));
 //        this.strictUpdateFill(metaObject, "updateTime", Date.class, DateUtils.getNowDate());
     }

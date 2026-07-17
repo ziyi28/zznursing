@@ -68,9 +68,6 @@ spring:
       # 最小连接池数量
       minIdle: 10
       # 最大连接池数量
-      maxActive: 20
-      # 配置获取连接等待超时的时间
-      maxWait: 60000
       # 配置连接超时时间
       connectTimeout: 30000
       # 配置网络超时时间
@@ -84,7 +81,8 @@ spring:
       # 配置检测连接是否有效
       validationQuery: SELECT 1 FROM DUAL
       testWhileIdle: true
-      testOnBorrow: false
+
+      testOnBorrow: true
       testOnReturn: false
       webStatFilter:
         enabled: true
@@ -202,4 +200,4 @@ openai:
   deepseek:
     base-url: https://api.deepseek.com
     api-key: sk-d069705f6f75436db8582635ba225a77
-    model: deepseek-v4-flash
+
